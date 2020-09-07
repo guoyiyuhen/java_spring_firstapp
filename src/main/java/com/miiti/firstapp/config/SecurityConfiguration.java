@@ -8,6 +8,7 @@ import com.miiti.firstapp.web.apis.authenticate.SimpleAuthenticationSuccessHandl
 import com.miiti.firstapp.web.apis.authenticate.SimpleLogoutSuccessHandler;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -45,8 +48,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/api/me/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
-                .and()
-                .cors()
                 .and()
                 .csrf().disable();
     }
@@ -91,5 +92,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public ApiRequestAccessDeniedExceptionTranslationFilter apiRequestExceptionTranslationFilter() {
         return new ApiRequestAccessDeniedExceptionTranslationFilter();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer()
+    {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").
+                        allowedOrigins("*").
+                        allowedMethods("*").
+                        allowedHeaders("*").
+                        allowCredentials(true).
+                        exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L);
+            }
+        };
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractBaseController {
-    
+
     void addTriggeredBy(UserCommand command, HttpServletRequest request) {
         Assert.notNull(request.getUserPrincipal(), "User principal must be present in the request");
         UsernamePasswordAuthenticationToken userPrincipal = (UsernamePasswordAuthenticationToken) request.getUserPrincipal();
