@@ -46,6 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/api/me/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
                 .and()
+                .cors()
+                .and()
                 .csrf().disable();
     }
 

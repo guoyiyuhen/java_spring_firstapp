@@ -29,7 +29,6 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
             throws AuthenticationException, IOException {
 
         log.debug("Processing login request");
-        System.out.println("sss  ddss");
 
         String requestBody = IOUtils.toString(request.getReader());
         LoginRequest loginRequest = JsonUtils.toObject(requestBody, LoginRequest.class);
