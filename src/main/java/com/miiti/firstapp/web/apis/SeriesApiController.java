@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-
+@CrossOrigin
 @Controller
-public class SeriesApiController extends AbstractBaseController{
+public class SeriesApiController {
     private SeriesService seriesService;
     private CourseService courseService;
 
