@@ -100,15 +100,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new ApiRequestAccessDeniedExceptionTranslationFilter();
     }
 
-
-
     @Bean
     public FilterRegistrationBean corsFilter() {
-        System.out.println("dd  FilterRegistrationBean");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://training.zhiheworld.com:80");
         config.addAllowedHeader(CorsConfiguration.ALL);
         config.addAllowedMethod(CorsConfiguration.ALL);
         source.registerCorsConfiguration("/**", config);
