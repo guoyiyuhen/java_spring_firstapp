@@ -26,6 +26,7 @@ public class RegistrationApiController {
     @PostMapping("/api/registrations")
     public ResponseEntity<ApiResult> register(
             @Valid @RequestBody RegistrationPayload payload) {
+
         try {
             service.register(payload.toCommand());
             return Result.created();
@@ -36,7 +37,6 @@ public class RegistrationApiController {
             } else if (e instanceof EmailAddressExistsException) {
                 errorMessage = "Email address already exists";
             }
-            System.out.println("dddd cccc");
             return Result.failure(errorMessage);
         }
     }
