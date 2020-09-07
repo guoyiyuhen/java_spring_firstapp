@@ -7,7 +7,9 @@ import com.miiti.firstapp.web.apis.authenticate.SimpleAuthenticationFailureHandl
 import com.miiti.firstapp.web.apis.authenticate.SimpleAuthenticationSuccessHandler;
 import com.miiti.firstapp.web.apis.authenticate.SimpleLogoutSuccessHandler;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,6 +26,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,7 +34,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC = new String[]{
-            "/static/a.jpg", "/error", "/login", "/logout", "/register", "/api/registrations"};
+            "/error", "/login", "/logout", "/register", "/api/registrations"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -97,16 +100,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new ApiRequestAccessDeniedExceptionTranslationFilter();
     }
 
+
+
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        System.out.println("dd  CorsConfigurationSource");
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");//修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
-        configuration.addAllowedMethod("*");//修改为添加而不是设置
-        configuration.addAllowedHeader("*");//这里很重要，起码需要允许 Access-Control-Allow-Origin
-        configuration.setAllowCredentials(true);
+    public FilterRegistrationBean corsFilter() {
+        System.out.println("dd  FilterRegistrationBean");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader(CorsConfiguration.ALL);
+        config.addAllowedMethod(CorsConfiguration.ALL);
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
+
 }
