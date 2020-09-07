@@ -11,17 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.servlet.http.HttpServletRequest;
 
-public abstract class AbstractBaseController extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                        .maxAge(3600)
-                        .allowCredentials(true);
-    }
-
+public abstract class AbstractBaseController {
+    
     void addTriggeredBy(UserCommand command, HttpServletRequest request) {
         Assert.notNull(request.getUserPrincipal(), "User principal must be present in the request");
         UsernamePasswordAuthenticationToken userPrincipal = (UsernamePasswordAuthenticationToken) request.getUserPrincipal();
