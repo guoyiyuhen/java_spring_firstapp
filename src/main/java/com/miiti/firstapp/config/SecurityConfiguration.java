@@ -99,6 +99,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        System.out.println("dd  CorsConfigurationSource");
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("*");//修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
         configuration.addAllowedMethod("*");//修改为添加而不是设置
