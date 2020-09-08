@@ -32,6 +32,9 @@ public class Course extends AbstractBaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "url")
+    private String url;
+
     @Column(name = "content")
     private String content;
 
@@ -74,6 +77,10 @@ public class Course extends AbstractBaseEntity {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public List<CourseItem> getCourseItem() {

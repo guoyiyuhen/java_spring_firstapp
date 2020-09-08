@@ -23,9 +23,8 @@ public class CourseResult {
         Map<String, Object> courseData = new HashMap<>();
         courseData.put("id", course.getId().value());
         courseData.put("title", course.getTitle());
+        courseData.put("url", course.getUrl());
         courseData.put("content", course.getContent());
-
-
 
 
         List<CourseResult.CourseItemListData> courseItemListData = new ArrayList<>();
